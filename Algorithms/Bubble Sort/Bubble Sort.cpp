@@ -5,7 +5,7 @@ void bubble_sort(T arr[], int n)
     for (int i = 0; i < n - 1 && count > 0; i++)
     {
         count = 0;
-        for (int j = 0; j < n - 1; j++)
+        for (int j = 0; j < n - i - 1; j++)
             if (arr[j] > arr[j + 1]) // increasing or decreasing order
             {
                 T temp = arr[j];
