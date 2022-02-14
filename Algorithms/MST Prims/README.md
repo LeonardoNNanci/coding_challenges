@@ -1,5 +1,3 @@
-# Prim's Minimum Spanning Tree
+# Prim's Minimum Spanning Tree - O(E log V)
 
-Greedy algorithm that, given a set of reached edges, adds the edge with the least weight to the solution.
-
-The current implementation uses an Adjacency List. I should also implement an Adjacency Matrix version.
+Greedy algorithm that, at each iteration, adds the edge with the smallest weight coming from the visited vertices and adds it to the solution.

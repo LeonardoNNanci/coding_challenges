@@ -1,40 +1,39 @@
 typedef pair<int, int> ii;
-typedef vector<ii> vii;
 
-// type stored in priority queue
-struct UVW
+void primsMST(vector<ii> adj[], int V)
 {
-    int u, v, w;
-    bool operator>(const UVW &other) const
+    int src = 0;
+    bool MSTset[V];
+    int weights[V], parents[V];
+    priority_queue<ii, vector<ii>, greater<ii>> pq;
+
+    fill(MSTset, MSTset + V, false);
+    fill(weights, weights + V, INT_MAX);
+    fill(parents, parents + V, -1);
+
+    weights[src] = 0;
+    pq.push(make_pair(weights[src], src));
+
+    while (!pq.empty())
     {
-        return w > other.w;
-    }
-};
-
-void prims_MST(vii graph[], int V)
-{
-    int u = 0, n = 1;
-    vector<bool> viz(V, false);
-    priority_queue<UVW, vector<UVW>, greater<UVW>> pq;
-
-    while (n < V)
-    {
-        if (!viz[u])
-        {
-            viz[u] = true;
-            for (auto edge : graph[u])
-                if (!viz[edge.first])
-                    pq.push({u, edge.first, edge.second});
-        }
-
-        auto p = pq.top();
+        int u = pq.top().second;
         pq.pop();
 
-        if (!viz[p.v])
+        if (MSTset[u])
+            continue;
+
+        MSTset[u] = true;
+
+        for (ii edge : adj[u])
         {
-            // adds edge (p.u---p.v) to solution
-            u = p.v;
-            n++;
+            int v = edge.first;
+            int w = edge.second;
+            if (!MSTset[v] && weights[v] > w)
+            {
+                pq.push(make_pair(w, v));
+                weights[v] = w;
+                parents[v] = u;
+            }
         }
     }
 }

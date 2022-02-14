@@ -1,31 +1,26 @@
 from queue import PriorityQueue
 
 
-class UVW:
-    def __init__(self, u, v, w) -> None:
-        self.u = u
-        self.v = v
-        self.w = w
+def primsMST(adj):
+    V = len(adj)
 
-    def __gt__(self, other):
-        return self.w > other.w
+    src = 0
+    MSTset = [False] * V
+    weights = [float("inf")] * V
+    parents = [-1] * V
+    pq = PriorityQueue(V)
 
+    weights[src] = 0
+    pq.put((weights[src], src))
 
-def prims_MST(graph, V):
-    u, n = 0, 1
-    viz = [False for _ in range(V)]
-    pq = PriorityQueue()
+    while not pq.empty():
+        _, u = pq.get()
+        if MSTset[u]:
+            continue
 
-    while n < V:
-        if not viz[u]:
-            viz[u] = True
-            for edge in graph[u]:
-                if not viz[edge[0]]:
-                    pq.put(UVW(u, edge[0], edge[1]))
-
-        p = pq.get()
-
-        if not viz[p.v]:
-            # adds edge (p.u---p.v) to solution
-            u = p.v
-            n += 1
+        MSTset[u] = True
+        for v, w in adj[u]:
+            if not MSTset[v] and weights[v] > w:
+                pq.put((w, v))
+                weights[v] = w
+                parents[v] = u
