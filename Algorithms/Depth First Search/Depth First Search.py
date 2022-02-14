@@ -1,5 +1,4 @@
 def DFS_aux(adj, vis, u):
-    print(u)
     vis[u] = True
     for v, w in adj[u]:
         if not vis[v]:

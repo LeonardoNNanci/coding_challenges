@@ -2,7 +2,6 @@ typedef pair<int, int> ii;
 
 void DFS_aux(vector<ii> adj[], bool vis[], int u)
 {
-    cout << "AUX - " << u << endl;
     vis[u] = true;
     for (ii edge : adj[u])
     {
@@ -21,7 +20,6 @@ void DFS(vector<ii> adj[], int V)
     {
         if (!vis[u])
         {
-            cout << "DFS - " << u << endl;
             DFS_aux(adj, vis, u);
         }
     }
