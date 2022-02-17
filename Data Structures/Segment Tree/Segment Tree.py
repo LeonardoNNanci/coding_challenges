@@ -41,3 +41,20 @@ class SegmentTree:
         cl = self.__range_query(self.left(i), low, mid, qlow, qhigh)
         cr = self.__range_query(self.right(i), mid + 1, high, qlow, qhigh)
         return self.op(cl, cr)
+
+    def update(self, index, val):
+        self.__update(1, index, val, 0, self.N - 1)
+        self.arr[index] = val
+
+    def __update(self, i, index, val, low, high):
+        if low == high:
+            self.st[i] = val
+            return
+
+        l, r = self.left(i), self.right(i)
+        mid = (low + high) // 2
+        if index <= mid:
+            self.__update(l, index, val, low, mid)
+        else:
+            self.__update(r, index, val, mid + 1, high)
+        self.st[i] = self.op(self.st[l], self.st[r])

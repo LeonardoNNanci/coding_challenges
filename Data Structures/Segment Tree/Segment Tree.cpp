@@ -2,7 +2,7 @@ template <class T>
 class SegmentTree
 {
 private:
-    T neutral = INT_MIN;
+    T neutral = INT_MIN; // define according to the problem
     int N;
     vector<T> st, arr;
 
@@ -16,7 +16,7 @@ private:
         return i * 2 + 1;
     }
 
-    // The actual operation in the seg tree
+    // define according to the problem
     T op(T left, T right)
     {
         return max(left, right);
@@ -33,6 +33,23 @@ private:
         T cl = rangeQuery(left(i), low, mid, qlow, qhigh);
         T cr = rangeQuery(right(i), mid + 1, high, qlow, qhigh);
         return op(cl, cr);
+    }
+
+    void update(int i, int index, T val, int low, int high)
+    {
+        if (low == high)
+        {
+            st[i] = val;
+            return;
+        }
+
+        int l = left(i), r = right(i);
+        int mid = (low + high) / 2;
+        if (index <= mid)
+            update(l, index, val, low, mid);
+        else
+            update(r, index, val, mid + 1, high);
+        st[i] = op(st[l], st[r]);
     }
 
     void build(int i, int low, int high)
@@ -62,5 +79,11 @@ public:
     T rangeQuery(int qlow, int qhigh)
     {
         return rangeQuery(1, 0, N - 1, qlow, qhigh);
+    }
+
+    void update(int index, T val)
+    {
+        update(1, index, val, 0, N - 1);
+        arr[index] = val;
     }
 };
