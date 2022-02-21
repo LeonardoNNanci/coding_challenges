@@ -1,15 +1,17 @@
+from collections import deque
+
 n = int(input())
 
 while n:
-    monte = [i for i in range(1, n + 1)]
-    print("Discarded cards:", end="")
-    if n > 1:
-        for i in range(0, n - 2):
-            print(" %d," % (monte.pop(0)), end="")
-            monte.append(monte.pop(0))
-        print(" %d" % (monte.pop(0)), end="")
-        monte.append(monte.pop(0))
-    print("\nRemaining card: %d" % (monte[0]))
+    deck = deque(range(1, n + 1))
 
-    monte.clear()
+    discarded = []
+
+    for _ in range(n - 1):
+        discarded.append(deck.popleft())
+        deck.append(deck.popleft())
+
+    print("Discarded cards:", str(discarded)[1:-1])
+    print(f"Remaining card: {deck.popleft()}")
+
     n = int(input())
