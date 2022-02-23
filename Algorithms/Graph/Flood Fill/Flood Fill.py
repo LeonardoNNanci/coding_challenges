@@ -1,4 +1,4 @@
-from queue import Queue
+from collections import deque
 
 # R, C = XXX, XXX  # define in main
 # define grid in main
@@ -16,10 +16,10 @@ def flood_fill_DFS(row, col):
 
 
 def flood_fill_BFS(r0, c0):
-    q = Queue()
-    q.put((r0, c0))
+    q = deque()
+    q.append((r0, c0))
 
-    while not q.empty():
+    while q:
         col, row = q.get()
         if row < 0 or row >= R or col < 0 or col >= C or grid[row][col] == 1:
             continue
@@ -29,7 +29,7 @@ def flood_fill_BFS(r0, c0):
             r = row + j
             c = col + i
             if grid[r][c] != 1:
-                q.put((r, c))
+                q.append((r, c))
 
 
 grid = [

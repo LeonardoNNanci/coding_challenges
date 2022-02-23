@@ -1,15 +1,14 @@
-from queue import Queue
+from collections import deque
 
 
 def BFS(adj):
     V = len(adj)
 
     vis = [False] * V
-    q = Queue()
-    q.put(0)
-
-    while not q.empty():
-        u = q.get()
+    q = deque()
+    q.append(0)
+    while q:
+        u = q.popleft()
 
         if vis[u]:
             continue
@@ -17,4 +16,4 @@ def BFS(adj):
 
         for v, w in adj[u]:
             if not vis[v]:
-                q.put(v)
+                q.append(v)
