@@ -17,7 +17,6 @@ def merge(arr, low, mid, high):
         left += 1
         i += 1
     while right <= high:
-        print(aux, i, right)
         aux[i] = arr[right]
         right += 1
         i += 1
@@ -27,7 +26,6 @@ def merge(arr, low, mid, high):
 
 def merge_sort(arr, low, high):
     if low >= high:
-        flag = True
         return
 
     mid = (high + low) // 2

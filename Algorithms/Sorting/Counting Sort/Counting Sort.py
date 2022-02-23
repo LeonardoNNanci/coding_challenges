@@ -1,6 +1,5 @@
 def counting_sort(arr, min, max, n):
-    r = max - min + 1
-    count = [0 for i in range(r)]
+    count = [0 for _ in range(max - min + 1)]
 
     for i in range(n):
         index = arr[i] - min

@@ -1,17 +1,18 @@
-def quicksort(arr, n):
-    if n <= 1:
+def quicksort(arr, low, high):
+    if low >= high:
         return
 
-    left, right, pivot = 0, n - 1, arr[n // 2]
+    left, right, pivot = low, high, arr[(low + high) // 2]
     while left <= right:
         while arr[left] < pivot:
             left += 1
         while arr[right] > pivot:
             right -= 1
 
-        arr[left], arr[right] = arr[right], arr[left]
-        left += 1
-        right -= 1
+        if left <= right:
+            arr[left], arr[right] = arr[right], arr[left]
+            left += 1
+            right -= 1
 
-    quicksort(arr[: right + 1], right + 1)
-    quicksort(arr[left:], n - left)
+    quicksort(arr, low, right)
+    quicksort(arr, left, high)
