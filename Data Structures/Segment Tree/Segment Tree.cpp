@@ -1,89 +1,59 @@
+// access is done in 0 indexing
+// calculations are done in 1 indexing
 template <class T>
-class SegmentTree
-{
-private:
-    T neutral = INT_MIN; // define according to the problem
-    int N;
-    vector<T> st, arr;
+class SegmentTree {
+ private:
+  int n;
+  T neutral;
+  vector<T> t;
 
-    int left(int i)
-    {
-        return i * 2;
+  // the main operation of the tree
+  T operation(T l, T r) { return l * r; }
+
+  void build() {
+    for (int i = n - 1; i > 0; --i)
+      t[i] = operation(t[i << 1], t[i << 1 | 1]);
+  }
+
+ public:
+  // Initialize empty
+  SegmentTree(int n, T neutral) {
+    this->n = n;
+    this->neutral = neutral;
+    t.assign(n * 2, neutral);
+  }
+
+  // Initialize from array
+  SegmentTree(vector<T> arr, T neutral) {
+    this->n = arr.size();
+    this->neutral = neutral;
+    t.assign(n * 2, neutral);
+    for (int i = 0; i < n; i++) {
+      t[n + i] = arr[i];
     }
+    build();
+  }
 
-    int right(int i)
-    {
-        return i * 2 + 1;
+  // set value at position i
+  void modify(int i, T value) {
+    for (t[i += n] = value; i >>= 1;)
+      t[i] = operation(t[i << 1], t[i << 1 | 1]);
+  }
+
+  // query on interval [l, r)
+  T query(int l, int r) {
+    T resl = neutral, resr = neutral;
+    for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
+      if (l & 1)
+        resl = operation(resl, t[l++]);
+      if (r & 1)
+        resr = operation(t[--r], resr);
     }
+    return operation(resl, resr);
+  }
 
-    // define according to the problem
-    T op(T left, T right)
-    {
-        return max(left, right);
-    }
-
-    T rangeQuery(int i, int low, int high, int qlow, int qhigh)
-    {
-        if (qlow > high || qhigh < low)
-            return neutral;
-        if (low >= qlow && high <= qhigh)
-            return st[i];
-
-        int mid = (low + high) / 2;
-        T cl = rangeQuery(left(i), low, mid, qlow, qhigh);
-        T cr = rangeQuery(right(i), mid + 1, high, qlow, qhigh);
-        return op(cl, cr);
-    }
-
-    void update(int i, int index, T val, int low, int high)
-    {
-        if (low == high)
-        {
-            st[i] = val;
-            return;
-        }
-
-        int l = left(i), r = right(i);
-        int mid = (low + high) / 2;
-        if (index <= mid)
-            update(l, index, val, low, mid);
-        else
-            update(r, index, val, mid + 1, high);
-        st[i] = op(st[l], st[r]);
-    }
-
-    void build(int i, int low, int high)
-    {
-        if (low == high)
-        {
-            st[i] = arr[low];
-            return;
-        }
-
-        int mid = (low + high) / 2;
-        int l = left(i), r = right(i);
-        build(l, low, mid);
-        build(r, mid + 1, high);
-        st[i] = op(st[l], st[r]);
-    }
-
-public:
-    SegmentTree(vector<T> &base)
-    {
-        arr = base;
-        N = base.size();
-        st.assign(N * 4, neutral);
-        build(1, 0, N - 1);
-    }
-
-    T rangeQuery(int qlow, int qhigh)
-    {
-        return rangeQuery(1, 0, N - 1, qlow, qhigh);
-    }
-
-    void update(int index, T val)
-    {
-        update(1, index, val, 0, N - 1);
-        arr[index] = val;
-    }
+  void clear() {
+    t.clear();
+    n = 0;
+  }
 };
