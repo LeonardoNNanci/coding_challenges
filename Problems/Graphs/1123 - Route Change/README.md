@@ -4,4 +4,4 @@
 
 ### Solution
 
-Modify [Dijkstra's Algorithm]() to add only the next city on the service route, in case the current city is also on the service route. If the current city is not on the service route, perform the classic algorithm;
+Modify [Dijkstra's Algorithm](https://github.com/LeonardoNNanci/coding_challenges/tree/main/Algorithms/Graph/Dijkstra) to add only the next city on the service route, in case the current city is also on the service route. If the current city is not on the service route, perform the classic algorithm;
