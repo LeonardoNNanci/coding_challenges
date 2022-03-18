@@ -1,26 +1,20 @@
+#define MAX_V 1000
+
 typedef pair<int, int> ii;
 
-void DFS_aux(vector<ii> adj[], bool vis[], int u)
-{
-    vis[u] = true;
-    for (ii edge : adj[u])
-    {
-        if (!vis[edge.first])
-            DFS_aux(adj, vis, edge.first);
-    }
+vector<ii> adj[MAX_V];
+bitset<MAX_V> vis;
+
+void DFS_aux(int u) {
+  vis.set(u);
+  for (auto edge : adj[u]) {
+    if (!vis.test(edge.first))
+      DFS_aux(edge.first);
+  }
 }
 
-void DFS(vector<ii> adj[], int V)
-{
-
-    bool vis[V];
-    fill(vis, vis + V, false);
-
-    for (int u = 0; u < V; u++)
-    {
-        if (!vis[u])
-        {
-            DFS_aux(adj, vis, u);
-        }
-    }
-}
+// in main
+vis.reset();
+for (int u = 0; u < V; u++)
+  if (!vis.test(u))
+    DFS(u);

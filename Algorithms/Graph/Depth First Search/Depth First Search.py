@@ -1,15 +1,17 @@
-def DFS_aux(adj, vis, u):
+MAX_V = 1000
+
+adj = [[] for _ in range(MAX_V)]
+
+
+def DFS(u):
     vis[u] = True
     for v, w in adj[u]:
         if not vis[v]:
-            DFS_aux(adj, vis, v)
+            DFS(v)
 
 
-def DFS(adj):
-    V = len(adj)
-
-    vis = [False] * V
-
-    for u in range(V):
-        if not vis[u]:
-            DFS_aux(adj, vis, u)
+# in main
+vis = [False] * V
+for u in range(V):
+    if not vis[u]:
+        DFS(u)
