@@ -13,7 +13,7 @@ void flood_fill_DFS(int row, int col) {
   grid[row][col] = 1;
 
   for (int i = 0; i < 8; i++)
-    flood_fill_DFS(row + dr[i], col + dc[i], R, C);
+    flood_fill_DFS(row + dr[i], col + dc[i]);
 }
 
 void flood_fill_BFS(int r0, int c0) {
